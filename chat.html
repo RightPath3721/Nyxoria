@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nyxoria — Oracle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="app">
+  <!-- Animated background -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <canvas id="starfield"></canvas>
+
+  <div class="app-shell">
+    <!-- SIDEBAR -->
+    <aside class="app-side" id="appSide">
+      <div class="side-top">
+        <a href="index.html" class="side-brand-link">
+          <span class="brand-mark">◈</span>
+          <span class="brand-name">Nyxoria</span>
+        </a>
+        <button class="side-collapse" id="sideClose" aria-label="Close menu">✕</button>
+      </div>
+      <button class="side-new-btn" onclick="newReading()">
+        <span>+</span> New reading
+      </button>
+      <div class="side-section-head">Recent readings</div>
+      <div class="side-list" id="sideList">
+        <a class="side-item active">
+          <span class="item-symbol">☾</span>
+          <div>
+            <div class="item-title">Tonight's reading</div>
+            <div class="item-time">Just now</div>
+          </div>
+        </a>
+        <a class="side-item">
+          <span class="item-symbol">✦</span>
+          <div>
+            <div class="item-title">The moon in March</div>
+            <div class="item-time">2 days ago</div>
+          </div>
+        </a>
+        <a class="side-item">
+          <span class="item-symbol">☥</span>
+          <div>
+            <div class="item-title">A question about him</div>
+            <div class="item-time">Last week</div>
+          </div>
+        </a>
+        <a class="side-item">
+          <span class="item-symbol">⚝</span>
+          <div>
+            <div class="item-title">Career, but quieter</div>
+            <div class="item-time">2 weeks ago</div>
+          </div>
+        </a>
+        <a class="side-item">
+          <span class="item-symbol">☽</span>
+          <div>
+            <div class="item-title">The dream I keep having</div>
+            <div class="item-time">Last month</div>
+          </div>
+        </a>
+      </div>
+      <div class="side-foot">
+        <div class="side-upgrade">
+          <div class="upgrade-head">
+            <span>Initiate</span>
+            <span class="upgrade-quota">17 / 20 today</span>
+          </div>
+          <div class="upgrade-bar"><div class="upgrade-fill" style="width:85%"></div></div>
+          <button class="btn btn-gold btn-block btn-sm">Upgrade to Seeker</button>
+        </div>
+        <div class="side-user">
+          <div class="avatar">A</div>
+          <div class="side-user-info">
+            <div class="side-name">Aria</div>
+            <a class="side-link" href="index.html">Settings</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CHAT -->
+    <main class="app-main">
+      <header class="app-header">
+        <button class="side-toggle" id="sideToggle" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="app-title">
+          <span class="status-dot"></span>
+          Nyxoria · The Oracle Within
+        </div>
+        <div class="app-header-actions">
+          <button class="icon-btn" title="Share reading">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg>
+          </button>
+          <button class="icon-btn" title="Voice mode">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg>
+          </button>
+          <button class="icon-btn" title="More">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="chat-feed" id="chatFeed">
+        <div class="chat-intro">
+          <div class="intro-mark">◈</div>
+          <h1 class="intro-title">The room is quiet.</h1>
+          <p class="intro-sub">Tell me what brought you here tonight. Or — if words are far away — let a card speak first.</p>
+          <div class="intro-actions">
+            <button class="chip" onclick="quickPrompt('What does the universe want me to know today?')">What does the universe want me to know today?</button>
+            <button class="chip" onclick="quickPrompt('Why do I keep dreaming of the same door?')">Why do I keep dreaming of the same door?</button>
+            <button class="chip" onclick="quickPrompt('Should I trust this feeling?')">Should I trust this feeling?</button>
+            <button class="chip chip-gold" onclick="openCardRitual()">
+              <span>✦</span> Pull a card
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="app-composer">
+        <div class="composer-wrap">
+          <button class="composer-action" title="Pull a card" onclick="openCardRitual()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 7h4M10 11h4M10 15h2"/></svg>
+          </button>
+          <textarea
+            id="composerInput"
+            placeholder="Whisper to the dark…"
+            rows="1"
+          ></textarea>
+          <button class="composer-action" title="Voice">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg>
+          </button>
+          <button class="composer-send" id="composerSend" title="Send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div class="composer-hint">
+          Nyxoria can be wrong. She speaks to reflect, not to prescribe.
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- CARD RITUAL MODAL -->
+  <div class="ritual" id="ritualModal" aria-hidden="true">
+    <div class="ritual-backdrop" onclick="closeCardRitual()"></div>
+    <div class="ritual-panel">
+      <button class="modal-close" onclick="closeCardRitual()" aria-label="Close">✕</button>
+      <div class="ritual-head">
+        <div class="eyebrow center"><span class="dot"></span> Card Ritual</div>
+        <h2 class="ritual-title">Choose a card.<br/><span class="text-gold">The deck has already chosen you.</span></h2>
+      </div>
+
+      <div class="deck" id="deck">
+        <!-- cards injected by JS -->
+      </div>
+
+      <div class="ritual-result" id="ritualResult" aria-hidden="true">
+        <div class="result-card">
+          <div class="result-frame">
+            <div class="result-symbol" id="resultSymbol">☾</div>
+            <div class="result-name" id="resultName">The Moon</div>
+            <div class="result-sub" id="resultSub">Illusion · Dreams · The hidden</div>
+          </div>
+        </div>
+        <div class="result-meaning">
+          <h3 id="resultTitle">The Moon</h3>
+          <p id="resultMeaning">Something you've been telling yourself in the dark is no longer true. Look again, in softer light.</p>
+          <button class="btn btn-gold" onclick="bringCardToChat()">Bring this card into the reading</button>
+          <button class="btn btn-ghost" onclick="closeCardRitual()">Close ritual</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
